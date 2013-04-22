@@ -1,6 +1,8 @@
+require 'learn_ruby/version'
+
 Gem::Specification.new do |s|
   s.name        = 'learn_ruby'
-  s.version     = '0.0.2'
+  s.version     = LearnRuby::VERSION
   s.date        = '2012-04-15'
   s.summary     = 'Learn Ruby'
   s.description = 'A Gem to help anyone learn Ruby.'
