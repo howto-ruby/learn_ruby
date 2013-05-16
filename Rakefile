@@ -1,40 +1,29 @@
-require 'rspec/core/rake_task'
+require 'rake/testtask'
 
-class String
-  def error
-    # red => \e[0;31
-    # red/bold => \e[1;31m
-    "\n\e[0;31m#{self}\e[0m"
-  end
-  def task
-    "\e[1;34m#{self}\e[0m"
-  end
-  def success
-    "\e[0;32m#{self}\e[0m"
-  end
+Rake::TestTask.new do |t|
+  t.test_files = FileList['test/*_test.rb']
+  t.verbose = true
 end
-
-desc "Run all tests"
-RSpec::Core::RakeTask.new(:spec) do |t|
-  #...
-  puts "\n\e[1;34mRunning tests...\e[0m\n\n"
-end
-
 
 desc "Build Gem"
 task :build do
   
   `clear`
   
-  puts "", "Building gem...".task
+  print "\nBuilding gem..."
   `gem build learn_ruby.gemspec`
+  print "done!\n"
   
-  puts "Installing gem...".task
-  `gem install learn_ruby`
-  
-  puts "Done!".task, ""
+  print "Installing gem..."
+  `gem install --local learn_ruby-0.0.2.gem`
+  print "done!\n\n"
   
 end
 
+desc "Test and Build"
+task :all do
+  Rake::Task["test"].execute
+  Rake::Task["build"].execute
+end
 
-task :default => :spec
+task :default => :all
